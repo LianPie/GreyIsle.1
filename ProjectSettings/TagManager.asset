@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - spike
+  - Ground
+  - end
+  - Color
+  - boundry
   layers:
   - Default
   - TransparentFX
