@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
-    public GameObject box;
+    public GameObject? box;
     public GameObject color;
 
     void Start()
@@ -20,7 +20,7 @@ public class Box : MonoBehaviour
     {
         if (other.gameObject.tag == "Ground")
         {
-            box.SetActive(false);
+            box?.SetActive(false);
         }
     }
 

@@ -62,9 +62,11 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\CrankLogic.cs" />
     <Compile Include="Assets\Scripts\box.cs" />
+    <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\Camera.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\Bound.cs" />
+    <Compile Include="Assets\Scripts\Level3CrankLogic.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Items\Materials\BlueOnly.shader" />

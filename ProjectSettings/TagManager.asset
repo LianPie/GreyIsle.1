@@ -9,6 +9,7 @@ TagManager:
   - end
   - Color
   - boundry
+  - Enemy
   layers:
   - Default
   - TransparentFX
