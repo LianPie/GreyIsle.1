@@ -15,11 +15,12 @@ public class Enemy : MonoBehaviour
     public AnimatorController Idle;
     private Animator animator;
     private Rigidbody2D rb;
-    // Start is called before the first frame update
+    Audio AudioManager;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<Audio>();
         rb.freezeRotation = true;
     }
 
@@ -59,7 +60,17 @@ public class Enemy : MonoBehaviour
         }
         if (other.gameObject.tag == "spike")
         {
+            AudioManager.SFXplayer(AudioManager.EnemyDeath);
             gameObject.SetActive(false);
+        }
+
+    }private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            AnimatorController controller = Idle; // Match your base state name
+            animator.runtimeAnimatorController = controller;
+            shouldMove = false;
         }
 
     }

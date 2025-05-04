@@ -6,15 +6,18 @@ public class Level3CrankLogic : MonoBehaviour
 {
     public Sprite ogSprite;
     public Sprite newSprite;
+    public GameObject tip;
     public GameObject initSet;
     public GameObject SecondarySet;
     private bool isPulled = false;
     private bool inRange = false;
-    private SpriteRenderer spriteRenderer; // For flipping the sprite
-    // Start is called before the first frame update
+    private SpriteRenderer spriteRenderer;
+    Audio AudioManager;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<Audio>();
     }
 
     // Update is called once per frame
@@ -24,6 +27,7 @@ public class Level3CrankLogic : MonoBehaviour
         if (inRange && Input.GetButtonDown("Interact") && !isPulled)
         {
             Debug.Log("f");
+            AudioManager.SFXplayer(AudioManager.Crank);
             spriteRenderer.sprite = newSprite;
             initSet.SetActive(false);
             SecondarySet.SetActive(true);
@@ -31,6 +35,7 @@ public class Level3CrankLogic : MonoBehaviour
         }
         else if (inRange && Input.GetButtonDown("Interact") && isPulled)
         {
+            AudioManager.SFXplayer(AudioManager.Crank);
             spriteRenderer.sprite = ogSprite;
             initSet.SetActive(true);
             SecondarySet.SetActive(false);
@@ -42,6 +47,7 @@ public class Level3CrankLogic : MonoBehaviour
         Debug.Log("within range");
         if (other.gameObject.tag == "Player")
         {
+            tip.SetActive(true);
             inRange = true;
         }
     }
@@ -50,6 +56,7 @@ public class Level3CrankLogic : MonoBehaviour
         Debug.Log("out of range");
         if (other.gameObject.tag == "Player")
         {
+            tip.SetActive(!true);
             inRange = false;
         }
     }

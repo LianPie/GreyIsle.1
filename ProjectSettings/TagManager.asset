@@ -11,6 +11,9 @@ TagManager:
   - boundry
   - Enemy
   - pit
+  - Audio
+  - interactionTip
+  - Water
   layers:
   - Default
   - TransparentFX

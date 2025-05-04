@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
-    public GameObject? box;
+    public GameObject box;
     public GameObject color;
+    Audio AudioManager;
 
     void Start()
     {
+        AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<Audio>();
 
     }
 
@@ -18,9 +20,10 @@ public class Box : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.tag == "Ground")
+        if (other.gameObject.tag == "Ground" && box.activeSelf)
         {
-            box?.SetActive(false);
+            AudioManager.SFXplayer(AudioManager.Box);
+            box.SetActive(false);
         }
     }
 

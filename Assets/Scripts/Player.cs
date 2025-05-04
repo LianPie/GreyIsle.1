@@ -25,12 +25,14 @@ public class Player : MonoBehaviour
     public GameObject gameOver;
     public float gameOverDuration = 3f;
 
+    Audio AudioManager;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-
+        AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<Audio>();
         rb.freezeRotation = true;
     }
 
@@ -44,21 +46,18 @@ public class Player : MonoBehaviour
 
             if (Move < -0.1f) // Moving left
             {
-                if (useSpriteRendererFlip && spriteRenderer != null)
-                    spriteRenderer.flipX = true;
-                else
-                    transform.localScale = new Vector3(-(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                if (useSpriteRendererFlip)
+                    transform.localScale = new Vector3(transform.localScale.x > 0 ? -transform.localScale.x : transform.localScale.x, transform.localScale.y, transform.localScale.z);
             }
             else if (Move > 0.1f) // Moving right
             {
-                if (useSpriteRendererFlip && spriteRenderer != null)
-                    spriteRenderer.flipX = false;
-                else
-                    transform.localScale = Vector3.one;
+                if (useSpriteRendererFlip)
+                    transform.localScale = new Vector3(transform.localScale.x < 0 ? - transform.localScale.x: transform.localScale.x, transform.localScale.y, transform.localScale.z);
             }
 
             if (Input.GetButtonDown("Jump") && !isjumping && jumpCount < 2)
             {
+                AudioManager.SFXplayer(AudioManager.Jump);
                 rb.AddForce(new Vector2(rb.velocity.x, jump));
                 jumpCount++;
                 Debug.Log("UP");
@@ -93,6 +92,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             Debug.Log("ENEMY");
+            AudioManager.SFXplayer(AudioManager.Gameover);
             gameOver.SetActive(true);
             dead = true;
         }
@@ -101,6 +101,7 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.tag == "Color")
         {
+            AudioManager.SFXplayer(AudioManager.Obtained);
 
             other.gameObject.SetActive(false);
 
@@ -123,8 +124,14 @@ public class Player : MonoBehaviour
         if (other.gameObject.tag == "spike")
         {
             Debug.Log("SPIKES");
+            AudioManager.SFXplayer(AudioManager.Gameover);
             gameOver.SetActive(true);
             dead = true;
+        }
+        if (other.gameObject.tag == "Water")
+        {
+            Debug.Log("Water");
+            AudioManager.SFXplayer(AudioManager.Splash);
         }
 
     }
