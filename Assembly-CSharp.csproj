@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\Bound.cs" />
     <Compile Include="Assets\Scripts\Level3CrankLogic.cs" />
+    <Compile Include="Assets\Scripts\Spikes.cs" />
     <Compile Include="Assets\Scripts\Audio.cs" />
   </ItemGroup>
   <ItemGroup>

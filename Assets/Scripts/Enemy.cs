@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
 public class Enemy : MonoBehaviour
@@ -15,6 +16,8 @@ public class Enemy : MonoBehaviour
     public AnimatorController Idle;
     private Animator animator;
     private Rigidbody2D rb;
+    Transform target;
+    Vector2 moveDirection;
     Audio AudioManager;
     void Start()
     {
@@ -22,19 +25,36 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
         AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<Audio>();
         rb.freezeRotation = true;
+        target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(shouldMove && OnGround)
-            rb.velocity = new Vector2(speed * Move, rb.velocity.y);
+
+        if (shouldMove && OnGround && target)
+        {
+            Vector3 direction = (target.position - transform.position).normalized;
+            moveDirection = direction;
+            if (moveDirection.x < 0)
+                transform.localScale = new Vector3(transform.localScale.x > 0 ? -transform.localScale.x : transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            if (moveDirection.x > 0)
+                transform.localScale = new Vector3(transform.localScale.x < 0 ? -transform.localScale.x : transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            rb.velocity = new Vector2(speed * moveDirection.x, rb.velocity.y);
+        }
     }
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "Ground")
         {
             OnGround = true;
+        }
+
+        if (other.gameObject.tag == "spike")
+        {
+            Debug.Log("Hit Spike");
+            AudioManager.SFXplayer(AudioManager.EnemyDeath);
+            gameObject.SetActive(false);
         }
     }
     private void OnCollisionExit2D(Collision2D other)
@@ -58,13 +78,9 @@ public class Enemy : MonoBehaviour
             animator.runtimeAnimatorController = controller;
             shouldMove = false;
         }
-        if (other.gameObject.tag == "spike")
-        {
-            AudioManager.SFXplayer(AudioManager.EnemyDeath);
-            gameObject.SetActive(false);
-        }
 
-    }private void OnTriggerExit2D(Collider2D other)
+    }
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.tag == "Player")
         {
