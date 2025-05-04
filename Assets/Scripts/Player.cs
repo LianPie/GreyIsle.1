@@ -104,7 +104,7 @@ public class Player : MonoBehaviour
 
             other.gameObject.SetActive(false);
 
-            string[] excludedTags = { "Player", "end", "boundry" };
+            string[] excludedTags = { "Player", "end", "boundry","pit" };
 
             SpriteRenderer[] allSprites = FindObjectsOfType<SpriteRenderer>();
             foreach (SpriteRenderer sprite in allSprites)
