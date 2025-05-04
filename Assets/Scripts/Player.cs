@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
@@ -17,7 +16,6 @@ public class Player : MonoBehaviour
     public bool isjumping;
     public bool useSpriteRendererFlip = true; // Choose flip method
     private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer; // For flipping the sprite
     public Material NewMaterial;
     public string NextLevel;
     public string CurrentScene;
@@ -31,7 +29,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         AudioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<Audio>();
         rb.freezeRotation = true;
     }

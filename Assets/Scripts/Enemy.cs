@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
@@ -12,8 +11,8 @@ public class Enemy : MonoBehaviour
     public float Move;
     private bool shouldMove = false;
     private bool OnGround = false;
-    public AnimatorController Walking;
-    public AnimatorController Idle;
+    public RuntimeAnimatorController Walking;
+    public RuntimeAnimatorController Idle;
     private Animator animator;
     private Rigidbody2D rb;
     Transform target;
@@ -68,13 +67,13 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            AnimatorController controller = Walking; // Match your base state name
+            RuntimeAnimatorController controller = Walking; // Match your base state name
             animator.runtimeAnimatorController = controller;
             shouldMove = true;
         }
         if (other.gameObject.tag == "pit")
         {
-            AnimatorController controller = Idle; // Match your base state name
+            RuntimeAnimatorController controller = Idle; // Match your base state name
             animator.runtimeAnimatorController = controller;
             shouldMove = false;
         }
@@ -84,7 +83,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            AnimatorController controller = Idle; // Match your base state name
+            RuntimeAnimatorController controller = Idle; // Match your base state name
             animator.runtimeAnimatorController = controller;
             shouldMove = false;
         }
