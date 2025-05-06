@@ -11,8 +11,7 @@ public class Enemy : MonoBehaviour
     public float Move;
     private bool shouldMove = false;
     private bool OnGround = false;
-    public RuntimeAnimatorController Walking;
-    public RuntimeAnimatorController Idle;
+    private bool IsDead = false;
     private Animator animator;
     private Rigidbody2D rb;
     Transform target;
@@ -30,8 +29,9 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (shouldMove && OnGround && target)
+        animator.SetBool("IsWalking", shouldMove);
+        animator.SetBool("isDead", IsDead);
+        if (shouldMove && OnGround && target && !IsDead)
         {
             Vector3 direction = (target.position - transform.position).normalized;
             moveDirection = direction;
@@ -53,7 +53,8 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("Hit Spike");
             AudioManager.SFXplayer(AudioManager.EnemyDeath);
-            gameObject.SetActive(false);
+            IsDead = true;
+            gameObject.layer = LayerMask.NameToLayer("IgnoreCollisions");
         }
     }
     private void OnCollisionExit2D(Collision2D other)
@@ -67,14 +68,10 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            RuntimeAnimatorController controller = Walking; // Match your base state name
-            animator.runtimeAnimatorController = controller;
             shouldMove = true;
         }
         if (other.gameObject.tag == "pit")
         {
-            RuntimeAnimatorController controller = Idle; // Match your base state name
-            animator.runtimeAnimatorController = controller;
             shouldMove = false;
         }
 
@@ -83,8 +80,6 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            RuntimeAnimatorController controller = Idle; // Match your base state name
-            animator.runtimeAnimatorController = controller;
             shouldMove = false;
         }
 

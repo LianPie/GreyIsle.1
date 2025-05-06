@@ -105,6 +105,7 @@ MonoBehaviour:
   Move: 1
   Walking: {fileID: 9100000, guid: f734b647839afd640b05cd6bb847ac6c, type: 2}
   Idle: {fileID: 9100000, guid: 9a4f813b528548d46bc5cd084515e06e, type: 2}
+  Dead: {fileID: 9100000, guid: 1bc0e4af70c11af47af73fcc0bb2d2c5, type: 2}
 --- !u!95 &865902624078519164
 Animator:
   serializedVersion: 5
